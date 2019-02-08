@@ -20,7 +20,7 @@ module External
       end
 
       def current_user
-        warden.user || @user
+        warden.try(:user) || @user
       end
     end
 
