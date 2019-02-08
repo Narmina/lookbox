@@ -94,6 +94,4 @@ Rails.application.configure do
           :enable_starttls_auto => true
   }
 
-  config.consider_all_requests_local       = true
-
 end

@@ -2,7 +2,7 @@ class LookPicture < ActiveRecord::Base
   belongs_to :look
   belongs_to :picture
 
-  validates_uniqueness_of :look_id, :scope => :picture_id
+  #validates_uniqueness_of :look_id, :scope => :picture_id
 
   attr_accessor :top, :left, :order, :width, :height
   serialize :position_params, Hash

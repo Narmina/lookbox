@@ -44,7 +44,10 @@ LookPictures = React.createClass({
   componentWillMount(){
     window.Look = {
       addPictures: (data='') => {
-        this.setState({look_pictures: this.state.look_pictures.concat(JSON.parse(data))})
+        added_pictures = JSON.parse(data)
+        //const merge = (a, b, key = 'picture_id') => a.filter(elem => !b.find(subElem => subElem[key] === elem[key])).concat(b)
+        //new_pictures = merge(this.state.look_pictures, added_pictures)
+        this.setState({look_pictures: this.state.look_pictures.concat(added_pictures)})
       }
     }
   },
@@ -55,7 +58,7 @@ LookPictures = React.createClass({
           <div className="look-pictures-action"><span className="glyphicon glyphicon-remove-circle" title="Clear trash" onClick={ this.clearTrash }></span></div>
         }
         { this.state.look_pictures.map(function(lp, index){
-          return <LookPictureItem key={`lp_${index}`} lp_id={lp.id} index = {index}
+          return <LookPictureItem key={`lp_${index}_${lp.id}_`} lp_id={lp.id} index = {index}
                                   picture = {lp.picture} position_params = {lp.position_params}
                                   pictures_for_remove_count = {this.state.pictures_for_remove_count}
                                   duplicatePicture = {this.duplicatePicture}

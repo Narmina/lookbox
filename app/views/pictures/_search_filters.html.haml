@@ -1,10 +1,11 @@
 %label= t("search_filters.sort_by")
 - is_remote = defined?(@available_pictures) ? true : false
 = sort_link @search, :title, t("search_filters.title"), {}, { remote: is_remote, class: '' }
-= sort_link @search, :updated_at, t("search_filters.date"), {}, { remote: is_remote, class: '' }
+= sort_link @search, :created_at, t("search_filters.date"), {}, { remote: is_remote, class: '' }
 .form-group
   .title-input-wrapper
-    = f.text_field :title_cont, class: "search-query form-control", "placeholder" => t("search_filters.type_title_or_part")
+    -#= f.text_field :title_or_description_cont_any, class: "search-query form-control", "placeholder" => t("search_filters.type_title_or_part")
+    = f.text_field :title_description_search, class: "search-query form-control", "placeholder" => t("search_filters.type_title_or_part")
     %span.clear-input-btn
       &times;
 .form-group.search-filters-category

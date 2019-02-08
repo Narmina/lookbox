@@ -1,8 +1,16 @@
-%h2= t("pictures.edit_picture")
+.row
+  .col-md-6
+    %h2= t("pictures.edit_picture")
+  .col-md-6
+    .btn-form-action
+      = link_to pictures_path, class: "btn" do
+        %span.glyphicon.glyphicon-chevron-left
+        = t("pictures.back_to_pictures")
+      = link_to @picture, class: "btn btn-primary", title: 'Show' do
+        %span.glyphicon.glyphicon-loop
+        = t("modal_forms.show")
 
 = render 'form'
 
-= link_to t("modal_forms.show"), @picture
-= link_to pictures_path, class: "btn" do
-  %span.glyphicon.glyphicon-chevron-left
-  = t("pictures.back_to_pictures")
+
+

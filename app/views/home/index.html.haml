@@ -1,12 +1,19 @@
 %b
   %p= "Hello, #{current_user_name}"
-  %p You're in a place, where your collage of pictures can be created.
-  %p Just use this service to put together sketches for clothes looks, foto comparing, etc...
-  %p Divide your images by nested multilevel categories. Share looks with friends or save them locally.
-  %p Organize your things once and never let the mess screw up your mood (:
-  %p= link_to "Log in here...", new_user_session_path unless user_signed_in?
-
-- if user_signed_in?
-  .menu-links-images
-    = render 'menu_links_btns'
-
+  %p You're in a place, where collages of pictures can be created and stored.
+  %p Use lookbox to sort out your sketches, images, fotos, etc...
+  %p Divide them by nested multilevel categories. Download pictures from other resources, save outer links.
+  %p Search images withing filters. Compare with each other on the special look canvas, drag, resize.
+  %p Share looks with other users, save screenshots locally and stay focused on the better ones.
+  %p Organize all your stuff just one time and never let a mess screw up your mood (:
+  %br
+  - unless user_signed_in?
+    %p= link_to "Log in here...", new_user_session_path unless user_signed_in?
+  - else
+    .menu-links-images.clearfix
+      = render 'menu_links_btns'
+  - if (video_link = introduction_video_link).present?
+    %br
+    %p P.S Watch introduction video first. It'll help you follow the steps, dive into details and eximine the system.
+    %br
+    %iframe{class: 'intro_video', src: video_link, frameborder: '1', allowfullscreen: '1'}

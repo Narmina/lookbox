@@ -110,19 +110,14 @@ class PicturesController < ApplicationController
     end
 
     def set_look_pictures_search
-      par = params.dup
-      if par[:store_page]
-        session[:look_pictures_search] = { page:  par[:page] || 1, q: par[:q]}
-      else
-        params.deep_merge!(session[:look_pictures_search]) if session[:look_pictures_search]
-      end
+      session[:look_pictures_search] = { page:  params[:page], q: params[:q]} if params[:page]
+      params.deep_merge!(session[:look_pictures_search]) if params[:restore_page].present? && session[:look_pictures_search]
     end
 
     def paginate_pictures(pictures, per_page)
       Kaminari.paginate_array(PictureDecorator.wrap(pictures)).page(params[:page]).per(per_page)
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def picture_params
       params.require(:picture).transform_keys{|k| k.sub('image_crop', 'crop')}.permit(:crop_x, :crop_y, :crop_w, :crop_h, :title, :description, :rotation, :user_id, :image, :direct_image_url, :link, category_ids: [])
     end

@@ -32,8 +32,9 @@ config/secret_tokens.yml
 
 .byebug_history
 
-db/schema.rb
 db/structure.sql
+.ruby-version
+.ruby-gemset
 
 test_class.rb
 

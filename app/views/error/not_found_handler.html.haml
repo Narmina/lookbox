@@ -1,0 +1,18 @@
+.exception
+  %p
+    U-ups.. Obviously, something went wrong..
+  %p
+    %span.title
+      Status:
+      = @exception.status
+  %p
+    %span.title
+      Exception Type:
+    = @exception.type
+  %p
+    = @exception.message
+
+
+  - if Rails.application.routes.recognize_path("/")
+    Start again
+    = link_to ' here', root_path

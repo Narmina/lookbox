@@ -1,0 +1,11 @@
+de:
+  main_menu:
+    pictures: "Bilder"
+    looks: "Sieht aus"
+    categories: "Kategorien"
+    my_profile: "Mein Profil"
+    change_password: "Ändere das Passwort"
+    settings: "die Einstellungen"
+    account: "Konto"
+    log_in: "Einloggen"
+    log_out: "Ausloggen"

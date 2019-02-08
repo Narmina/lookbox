@@ -7,6 +7,8 @@ require 'minitest/rails/capybara'
 require 'sidekiq/testing'
 Sidekiq::Testing.fake!  # by default it is fake
 
+#ENV['RACK_ENV'] = 'test'
+
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all

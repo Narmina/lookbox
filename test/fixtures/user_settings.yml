@@ -1,2 +1,4 @@
 john_doe_settings:
  user: john_doe
+ time_zone: 'UTC'
+ look_screen_category_id: main

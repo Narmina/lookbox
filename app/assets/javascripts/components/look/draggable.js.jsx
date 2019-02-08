@@ -25,13 +25,12 @@ var Draggable = React.createClass({
   },
   componentDidUpdate: function (props, state) {
     [on_move, on_end] = ConstantsList.isMobileDevice ? ['touchmove', 'touchend' ] : ['mousemove', 'mouseup']
-    current_node = ReactDOM.findDOMNode(this)
     if (this.state.dragging && !state.dragging) {
-      current_node.addEventListener(on_move, this.onMouseMove);
-      current_node.addEventListener(on_end, this.onMouseUp);
+      document.addEventListener(on_move, this.onMouseMove)
+      document.addEventListener(on_end, this.onMouseUp)
     } else if (!this.state.dragging && state.dragging) {
-      current_node.removeEventListener(on_move, this.onMouseMove);
-      current_node.removeEventListener(on_end, this.onMouseUp);
+      document.removeEventListener(on_move, this.onMouseMove)
+      document.removeEventListener(on_end, this.onMouseUp)
     }
   },
   componentDidMount: function() {

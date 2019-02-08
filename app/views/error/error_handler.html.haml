@@ -1,0 +1,6 @@
+.exception
+  %p Internal server error was detected.
+  %p Please, try again later
+  - if Rails.env.development?
+    %p= @exception.message
+

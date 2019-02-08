@@ -7,7 +7,7 @@
       = link_to looks_path, class: "" do
         %span.glyphicon.glyphicon-chevron-left
         Back to Looks
-      - if look.user_id.eql? current_user.id
+      - if @look.user_id.eql? current_user.id
         = link_to edit_look_path(@look), class: "btn btn-primary", title: 'Edit'  do
           %span.glyphicon.glyphicon-pencil
           Edit

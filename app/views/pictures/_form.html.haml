@@ -32,16 +32,16 @@
         .row
           = f.label t('pictures.category'), class: "col-sm-2 control-label"
           .col-sm-10
-            = select :picture, :category_ids, nested_set_options(current_user.categories){|cat|  "#{'-' * cat.depth} #{cat.name}" }, { include_blank: true }, { multiple: true, class: "select2-select"}
+            = select :picture, :category_ids, nested_set_options(current_user.categories){|cat|  "#{'-' * cat.depth} #{cat.name}" }, { include_blank: true }, { multiple: true, class: "select2-select categories-select"}
       .form-group
         .row
           = f.label :image, class: "col-sm-2 control-label"
-          .col-sm-6.title-input-wrapper
+          .col-sm-9.title-input-wrapper
             = f.text_field :direct_image_url, class: 'form-control'
             %span.clear-input-btn
               &times;
-          .col-sm-4
-            %i.glyphicon.glyphicon-info-sign.infopopover{'data-content' => 'Use direct image url or upload image'}
+          .col-sm-1
+            %i.glyphicon.glyphicon-info-sign.infopopover{'data-content' => 'Insert image url from other resource or upload image from your device'}
       .form-group
         .row
           .image-uploader{:'data-provides' => "fileinput", class: "fileinput fileinput-#{@picture.image.present? ? 'exists' : 'new'}"}

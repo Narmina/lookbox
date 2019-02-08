@@ -1,8 +1,6 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 john_doe_api_key:
-  access_token:
+  access_token: asdf1337G
+  user_setting: john_doe_settings
   expires_at:
-  user_setting_id: john_doe
   active: true
 

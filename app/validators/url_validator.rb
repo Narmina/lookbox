@@ -12,6 +12,7 @@ class UrlValidator < ActiveModel::Validator
         source = URI.parse(url)
         Net::HTTP.get_response(source)
       rescue URI::InvalidURIError => e
+        #Bugsnag.notify(e)
         record.errors.add(field.to_sym, e.message || 'is Invalid')
       rescue SocketError
         record.errors.add(field.to_sym, 'is Invalid')

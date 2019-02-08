@@ -7,10 +7,6 @@ class LookDecorator < Draper::Decorator
     end
   end
 
-  def preloaded_look_pictures
-    object.look_pictures.includes(:picture)
-  end
-
   def available_pictures
     object.user.pictures - object.pictures
   end

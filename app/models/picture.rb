@@ -19,6 +19,7 @@ class Picture < ActiveRecord::Base
   validates :user, presence: true
   validates_with UrlValidator, fields: [:direct_image_url, :link]
 
+  scope :preload_categories, -> { eager_load(:categories) }
   scope :uncategorized, -> { includes(:categories).where( categories: { id: nil } ) }
 
   # a bit odd, but of many-to-many category and picture
@@ -32,7 +33,8 @@ class Picture < ActiveRecord::Base
     category_ids_with_children = proc{ |cat_ids| cat_ids.concat(Category.where(id: cat_ids).eager_load(:children).map{|cat| cat.children}.flatten).uniq }
 
     category_ids.reject!(&:empty?)
-    category_ids.push(nil) if category_ids.delete('0') || category_ids.delete('-1') # for uncategorized
+    category_ids.delete('0') || category_ids.delete_at(category_ids.index('1') || category_ids.length)
+    category_ids.push(nil) if category_ids.delete('-1') # for uncategorized
 
     case category_ids
       when any_categories
@@ -47,13 +49,17 @@ class Picture < ActiveRecord::Base
   
   scope :include_subcategories, -> (include_subcat = nil) { }
 
+  scope :title_description_search, -> (search_text) do
+    self.ransack(title_or_description_cont_any: search_text.split).result
+  end
+
   before_save :load_image_from_remote_url, if: ->(obj){ obj.direct_image_url.present? }
   after_update :update_picture
   after_destroy :remove_cloud_image, if: ->(obj){ Rails.application.secrets.use_cloudinary && obj.image.url.present?}
 
   # whitelist the scope
   def self.ransackable_scopes(auth_object = nil)
-    [:category_search, :include_subcategories]
+    [:category_search, :include_subcategories, :title_description_search]
   end
 
   def load_image_from_remote_url

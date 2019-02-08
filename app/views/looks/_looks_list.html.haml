@@ -9,6 +9,9 @@
       .image-block.look-block
         = link_to image_tag(look.preview_image, alt: 'No image', class: "image-space"), "#", data: {toggle: "modal", target: "#look-modal-#{look.id}"}
       - if is_shared_looks
+        .look-name
+          Shared from:
+          = look.user.email
         .shared-looks-actions
           = link_to "Approve", approve_shared_look_path(look), class: 'btn btn-primary' unless look.user_looks[0].is_approved
           = link_to "Decline", remove_shared_look_path(look), method: :get, class: 'btn btn-primary', data: { confirm: "You're going to decline watching this look", :"confirm-success-label" => 'Decline' }

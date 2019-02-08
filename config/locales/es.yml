@@ -1,0 +1,12 @@
+es:
+  es: "Español"
+  main_menu:
+    pictures: "Imágenes"
+    looks: "Miradas"
+    categories: "Categorías"
+    my_profile: "Mi perfil"
+    change_password: "Cambia la contraseña"
+    settings: "Ajustes"
+    account: "Cuenta"
+    log_in: "Iniciar sesión"
+    log_out: "Cerrar sesión"

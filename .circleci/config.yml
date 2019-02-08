@@ -1,0 +1,101 @@
+#Ruby CircleCI 2.0 configuration file
+
+# Check https://circleci.com/docs/2.0/language-ruby/ for more details
+
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+       - image: circleci/ruby:2.3-browsers
+         environment:
+           RAILS_ENV: test
+           RACK_ENV: test
+           #PGHOST: 127.0.0.1
+           #PGUSER: lookbox_user
+           DATABASE_URL: postgresql://lookbox_user@127.0.0.1:5432/lookbox_test
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+       - image: circleci/postgres:9.6-postgis
+         environment:
+           POSTGRES_DB: lookbox_test
+           POSTGRES_USER: lookbox_user
+
+    working_directory: ~/lookbox
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - lookbox-dependencies-{{ checksum "Gemfile.lock" }}
+          # fallback to using the latest cache if no exact match is found
+          - lookbox-dependencies-
+
+      - run:
+          name: install dependencies
+          # Database setup
+          command: |
+            bundle install
+
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: lookbox-dependencies-{{ checksum "Gemfile.lock" }}
+
+      - restore_cache:
+          keys:
+            - v1-asset-cache-{{ arch }}-{{ .Branch }}
+            - v1-asset-cache-
+
+      - run: bundle exec rake assets:precompile
+
+      - save_cache:
+          key: v1-asset-cache-{{ arch }}-{{ .Branch }}-{{ epoch }}
+          paths:
+            - public/assets
+            - tmp/cache/assets/sprockets
+        
+      # Database setup
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:schema:load --trace
+
+      # run tests!
+      - run:
+          name: run tests
+          command: |
+            mkdir /tmp/test-results
+            bundle exec rake test \
+                         $(circleci tests glob "test/**/*_test.rb" | circleci tests split --split-by=timings)
+
+      # collect reports
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+
+  deploy:
+    machine:
+        enabled: true
+    working_directory: ~/lookbox
+    steps:
+      - checkout
+      - run:
+          name: Deploy Master to Heroku
+          command: |
+            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
